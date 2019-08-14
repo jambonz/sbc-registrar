@@ -1,8 +1,10 @@
 const Srf = require('drachtio-srf');
-const srf = new Srf();
-const config = require('config');
+const srf = new Srf();const config = require('config');
 const logger = require('pino')(config.get('logging'));
 const regParser = require('drachtio-mw-registration-parser') ;
+const {digestChallenge} = require('./lib/middleware');
+const Registrar = require('./lib/registrar');
+srf.locals.registrar = new Registrar(logger);
 
 // disable logging in test mode
 if (process.env.NODE_ENV === 'test') {
@@ -21,8 +23,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 // middleware
-srf.use('register', regParser);
-
+srf.use('register', [digestChallenge(logger), regParser]);
 
 srf.register(require('./lib/register')({logger}));
 

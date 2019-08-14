@@ -21,7 +21,11 @@
     "config": "^3.2.2",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.14",
-    "pino": "^5.13.2"
+    "nonce": "^1.0.4",
+    "pino": "^5.13.2",
+    "redis": "^2.8.0",
+    "request": "^2.88.0",
+    "request-debug": "^0.2.0"
   },
   "devDependencies": {
     "blue-tape": "^1.0.0",
