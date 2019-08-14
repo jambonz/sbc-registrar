@@ -29,7 +29,9 @@ Configuration is provided via the [config](https://www.npmjs.com/package/config)
     "secret": "cymru"
   },
 ```
-the `drachtio` object specifies the port to listen on for tcp connections from drachtio servers as well as the shared secret that is used to authenticate to the serve.
+the `drachtio` object specifies the port to listen on for tcp connections from drachtio servers as well as the shared secret that is used to authenticate to the server.
+
+> Note: [outbound connections](https://drachtio.org/docs#outbound-connections) are used for all drachtio applications in jambonz, to allow for easier centralization and clustering of application logic.
 
 ##### redis server location
 ```
