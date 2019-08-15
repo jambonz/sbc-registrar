@@ -71,7 +71,7 @@ the `authCallback` object specifies the http(s) url that a POST request will be 
       }
     }
 ```
-It is the responsibility of the customer-side logic to retrieve the associated password for the given username and authenticate the request by calculating a response token and comparing it to that provided in the request.
+It is the responsibility of the customer-side logic to retrieve the associated password for the given username and authenticate the request by calculating a response token (per the algorithm described in [RFC 2617](https://tools.ietf.org/html/rfc2617#section-3.2.2)) and comparing it to that provided in the request.  
 
 The `auth` property in the `authCallback` object is optional.  It should be provided if the customer callback is using HTTP Basic Authentication to protect the endpoint.
 
