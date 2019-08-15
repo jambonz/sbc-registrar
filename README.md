@@ -37,10 +37,12 @@ the `drachtio` object specifies the port to listen on for tcp connections from d
 ```
   "redis": {
     "port": 6379,
-    "address": "127.0.0.1"
+    "host": "127.0.0.1"
   },
 ```
-the `redis` object specifies the location of the redis database.  Note that in a fully-scaled out environment with multiple SBCs there will be one centralized redis database (or cluster) that stores registrations for all SBCs.
+the `redis` object specifies the location of the redis database.  Any of the options [defined here](https://www.npmjs.com/package/redis#rediscreateclient) may be supplied, but host and port are minimally required.  
+
+Note that in a fully-scaled out environment with multiple SBCs there will be one centralized redis database (or cluster) that stores registrations for all SBCs.
 
 ##### application log level
 ```
