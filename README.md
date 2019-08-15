@@ -80,3 +80,8 @@ If the request is successfully authenticated, the callback should return a 200 O
 {"status": "ok"}
 ```
 This will signal the application to accept the registration request, respond accordingly to the client, and update the redis database with the active registration.
+
+In the case of failure, the customer-side application *should* return a 'msg' property indicating the reason, e.g.
+```
+{"status": "fail", "msg": "invalid username"}
+```
