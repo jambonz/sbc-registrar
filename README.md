@@ -1,13 +1,13 @@
 # sbc-registrar
 
-This application provides a part of the SBC (Session Border Controller) functionality of jambonz.  It handles incoming REGISTER requests from clients, including both sip softphones and WebRTC client applications.  Authentication is delegated to customer-side logic via a configured web callback.  Information about active registrations are stored in a redis database.
+This application provides a part of the SBC (Session Border Controller) functionality of jambonz.  It handles incoming REGISTER requests from clients, including both sip softphones and WebRTC client applications.  Authentication is delegated to customer-side logic via a configured web callback.  Information about active registrations is stored in a redis database.
 
 ## registrar database
 
 A redis database is used to hold active registrations. When a register request arrives and is authenticated, the following values are parsed from the request:
 - the address of record, or "aor" (e.g, dave@drachtio.org),
 - the sip uri, or "contact" that this user can receive SIP requests on (e.g. sip:daveh@3.44.3.12:5060)
-- the transport protocol that should be used to contact the user (e.g. udp, wss etc)
+- the transport protocol that should be used to contact the user (e.g. udp, tcp, wss etc)
 - the sip address of the drachtio server that received the REGISTER request, and
 - the expiration of the registration, in seconds.
 
@@ -20,7 +20,7 @@ aor => {contact, protocol, sbcAddress}, expiry = registration expires value
 
 ## Configuration
 
-Configuration is provided via the [config](https://www.npmjs.com/package/config) package.  The following elements make up the configuration for the application:
+Configuration is provided via the [npmjs config](https://www.npmjs.com/package/config) package.  The following elements make up the configuration for the application:
 ##### drachtio server location
 ```
 {
@@ -40,7 +40,7 @@ the `drachtio` object specifies the port to listen on for tcp connections from d
     "address": "127.0.0.1"
   },
 ```
-the `redis` object specifies the location of the redis database.
+the `redis` object specifies the location of the redis database.  Note that in a fully-scaled out environment with multiple SBCs there will be one centralized redis database (or cluster) that stores registrations for all SBCs.
 
 ##### application log level
 ```
