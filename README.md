@@ -73,6 +73,8 @@ the `authCallback` object specifies the http(s) url that a POST request will be 
 ```
 It is the responsibility of the customer-side logic to retrieve the associated password for the given username and authenticate the request by calculating a response token and comparing it to that provided in the request.
 
+The `auth` property in the `authCallback` object is optional.  It should be provided if the customer callback is using HTTP Basic Authentication to protect the endpoint.
+
 If the request is successfully authenticated, the callback should return a 200 OK response with a JSON body including:
 ```
 {"status": "ok"}
