@@ -24,17 +24,19 @@ obj.output = () => {
   return output;
 };
 
-obj.sippUac = (file) => {
+obj.sippUac = (file, regObj) => {
   const cmd = 'docker';
-  const args = [
+  let args = [
     'run', '-ti', '--rm', '--net', `${network}`,
     '-v', `${__dirname}/scenarios:/tmp/scenarios`,
-    'drachtio/sipp', 'sipp', '-sf', `/tmp/scenarios/${file}`,
+    'drachtio/sipp', 'sipp', `${regObj.remote_host}`, // remote host is require on auth
+    '-inf', `/tmp/scenarios/${regObj.data_file}`,
+    '-sf', `/tmp/scenarios/${file}`,
     '-m', '1',
     '-sleep', '250ms',
     '-nostdin',
     '-cid_str', `%u-%p@%s-${idx++}`,
-    'drachtio'
+    'sbc'
   ];
 
   clearOutput();
