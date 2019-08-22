@@ -18,17 +18,18 @@ if (process.env.NODE_ENV === 'test') {
   logger.child = () => {return {info: noop, error: noop, debug: noop};};
 }
 
-srf.connect(config.get('drachtio'));
-srf.on('connect', (err, hp) => {
-  if (err) throw err;
-  logger.info(`connected to drachtio listening on ${hp}`);
-});
-if (process.env.NODE_ENV !== 'test') {
-  srf.on('error', (err) => logger.error(err));
+if (config.has('drachtio.host')) {
+  srf.connect(config.get('drachtio'));
+  srf.on('connect', (err, hp) => {
+    if (err) throw err;
+    logger.info(`connected to drachtio listening on ${hp}`);
+  });
+} else {
+  srf.listen(config.get('drachtio'));
 }
 
 // middleware
-srf.use('register', authenticator);
+srf.use('register', [authenticator, regParser]);
 
 srf.register(require('./lib/register')({logger}));
 
