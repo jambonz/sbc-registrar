@@ -15,15 +15,30 @@ function connect(connectable) {
   });
 }
 
-
 test('register handler', (t) => {
   clearModule('../app');
   const {srf} = require('../app');
 
+  const sippRegObj = {
+    remote_host: '172.38.0.10:5060'
+  };
+
   connect(srf)
     .then(() => {
-      return sippUac('uac-register-expect-480.xml');
+	  t.comment('register with bad credentials');
+      sippRegObj.data_file = 'bad_password.csv';
+      return sippUac('uac-register-auth-failure-expect-403.xml', sippRegObj);
     })
+    .then(() => {
+	  t.comment('register with good credentials');
+      sippRegObj.data_file = 'good_user.csv';
+      return sippUac('uac-register-auth-success.xml', sippRegObj);
+    })
+    .then(() => {
+	  t.comment('unregister');
+	  sippRegObj.data_file = 'good_user.csv';
+	  return sippUac('uac-unregister-auth-success.xml', sippRegObj);
+	})
     .then(() => {
       t.pass('register handler passed');
       if (srf.locals.lb) srf.locals.lb.disconnect();

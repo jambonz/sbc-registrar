@@ -8,25 +8,30 @@ networks:
         - subnet: 172.38.0.0/16
 
 services:
-  drachtio:
+  sbc:
     image: drachtio/drachtio-server:latest
     command: drachtio --contact "sip:*;transport=udp" --loglevel debug --sofia-loglevel 9
-    container_name: drachtio
     ports:
-      - "9060:9022/tcp"
+      - "9022:9022/tcp"
     networks:
       sbc-registrar:
         ipv4_address: 172.38.0.10
 
-  
-
-  sipp-uas:
-    image: drachtio/sipp:latest
-    command: sipp -sf /tmp/uas.xml
-    container_name: sipp-uas.local
-    volumes:
-      - ./scenarios:/tmp
-    tty: true
+  auth-server:
+    image: jambonz/customer-auth-server:latest
+    command: npm start
+    ports:
+      - "4000:4000/tcp"
+    env_file: docker.env
     networks:
       sbc-registrar:
         ipv4_address: 172.38.0.12
+
+  redis:
+    image: redis:5-alpine
+    ports:
+      - "16379:6379/tcp"
+    networks:
+      sbc-registrar:
+        ipv4_address: 172.38.0.13
+
