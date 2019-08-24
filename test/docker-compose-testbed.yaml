@@ -5,7 +5,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.38.0.0/16
+        - subnet: 172.37.0.0/16
 
 services:
   sbc:
@@ -15,7 +15,7 @@ services:
       - "9022:9022/tcp"
     networks:
       sbc-registrar:
-        ipv4_address: 172.38.0.10
+        ipv4_address: 172.37.0.10
 
   auth-server:
     image: jambonz/customer-auth-server:latest
@@ -25,7 +25,7 @@ services:
     env_file: docker.env
     networks:
       sbc-registrar:
-        ipv4_address: 172.38.0.12
+        ipv4_address: 172.37.0.12
 
   redis:
     image: redis:5-alpine
@@ -33,5 +33,5 @@ services:
       - "16379:6379/tcp"
     networks:
       sbc-registrar:
-        ipv4_address: 172.38.0.13
+        ipv4_address: 172.37.0.13
 

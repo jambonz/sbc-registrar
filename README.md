@@ -1,4 +1,4 @@
-# sbc-registrar
+# sbc-registrar [![Build Status](https://secure.travis-ci.org/jambonz/sbc-registrar.png)](http://travis-ci.org/jambonz/sbc-registrar)
 
 This application provides a part of the SBC (Session Border Controller) functionality of jambonz.  It handles incoming REGISTER requests from clients, including both sip softphones and WebRTC client applications.  Authentication is delegated to customer-side logic via a configured web callback.  Information about active registrations is stored in a redis database.
 

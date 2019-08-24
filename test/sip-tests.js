@@ -15,7 +15,7 @@ function connect(connectable) {
   });
 }
 
-test('register handler', (t) => {
+test('register tests', (t) => {
   clearModule('../app');
   const {srf} = require('../app');
 
@@ -25,22 +25,21 @@ test('register handler', (t) => {
 
   connect(srf)
     .then(() => {
-	  t.comment('register with bad credentials');
       sippRegObj.data_file = 'bad_password.csv';
       return sippUac('uac-register-auth-failure-expect-403.xml', sippRegObj);
     })
     .then(() => {
-	  t.comment('register with good credentials');
+      t.pass('received 403 Forbidden when using invalid credentials');
       sippRegObj.data_file = 'good_user.csv';
       return sippUac('uac-register-auth-success.xml', sippRegObj);
     })
     .then(() => {
-	  t.comment('unregister');
-	  sippRegObj.data_file = 'good_user.csv';
-	  return sippUac('uac-unregister-auth-success.xml', sippRegObj);
-	})
+      t.pass('successfully registered when using valid credentials');
+      sippRegObj.data_file = 'good_user.csv';
+      return sippUac('uac-unregister-auth-success.xml', sippRegObj);
+    })
     .then(() => {
-      t.pass('register handler passed');
+      t.pass('successfully unregistered');
       if (srf.locals.lb) srf.locals.lb.disconnect();
       srf.disconnect();
       t.end();
