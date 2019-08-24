@@ -1,6 +1,6 @@
 {
   "name": "sbc-registrar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "app.js",
   "engines": {
     "node": ">= 8.10.0"
@@ -23,7 +23,7 @@
     "drachtio-http-authenticator": "0.0.5",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.14",
-    "jambonz-mw-registrar": "0.0.1",
+    "jambonz-mw-registrar": "0.0.2",
     "nonce": "^1.0.4",
     "pino": "^5.13.2",
     "tape": "^4.11.0"
