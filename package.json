@@ -20,7 +20,7 @@
   "dependencies": {
     "blue-tape": "^1.0.0",
     "config": "^3.2.2",
-    "drachtio-http-authenticator": "0.0.5",
+    "drachtio-http-authenticator": "^0.1.0",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.14",
     "jambonz-mw-registrar": "0.0.3",
@@ -30,10 +30,10 @@
   },
   "devDependencies": {
     "clear-module": "^4.0.0",
-    "eslint": "^6.1.0",
+    "eslint": "^6.7.2",
     "eslint-plugin-promise": "^4.2.1",
     "nyc": "^14.1.1",
-    "tap": "^14.6.1",
+    "tap": "^14.10.2",
     "tap-dot": "^2.0.0",
     "tap-spec": "^5.0.0"
   }

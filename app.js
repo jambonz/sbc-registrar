@@ -7,9 +7,12 @@ const Registrar = require('jambonz-mw-registrar');
 
 // making 'deep copy' here because request package was having issues with the config.get object
 const authConfig = JSON.parse(JSON.stringify(config.get('authCallback')));
-const authenticator = require('drachtio-http-authenticator')(authConfig);
+const authenticator = require('drachtio-http-authenticator')(authConfig, logger);
 
-srf.locals.registrar = new Registrar(logger, {host: `${config.get('redis.host')}`, port: `${config.get('redis.port')}` });
+srf.locals.registrar = new Registrar(logger, {
+  host: `${config.get('redis.host')}`,
+  port: `${config.get('redis.port')}`
+});
 
 // disable logging in test mode
 if (process.env.NODE_ENV === 'test') {
