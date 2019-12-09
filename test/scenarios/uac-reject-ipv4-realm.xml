@@ -4,7 +4,7 @@
 <scenario name="Basic Sipstone UAC">
   <send retrans="500">
   <![CDATA[
-REGISTER sip:[field1] SIP/2.0
+REGISTER sip:192.169.1.1 SIP/2.0
 Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
 Max-Forwards: 70
 From: "sipp" <sip:[field0]@[field1]>;tag=[call_number]

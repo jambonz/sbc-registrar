@@ -26,6 +26,11 @@ test('register tests', (t) => {
   connect(srf)
     .then(() => {
       sippRegObj.data_file = 'bad_realm.csv';
+      return sippUac('uac-reject-ipv4-realm.xml', sippRegObj);
+    })
+    .then(() => {
+      t.pass('received immediate 403 Forbidden when using ipv4 dot decimal for sip realm');
+      sippRegObj.data_file = 'bad_realm.csv';
       return sippUac('uac-register-unknown-realm.xml', sippRegObj);
     })
     .then(() => {

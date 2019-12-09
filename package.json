@@ -20,7 +20,7 @@
   "dependencies": {
     "blue-tape": "^1.0.0",
     "config": "^3.2.2",
-    "drachtio-http-authenticator": "^0.1.0",
+    "drachtio-http-authenticator": "^0.1.1",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.14",
     "jambonz-mw-registrar": "0.0.3",
