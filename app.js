@@ -4,10 +4,8 @@ const config = require('config');
 const logger = require('pino')(config.get('logging'));
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
-
-// making 'deep copy' here because request package was having issues with the config.get object
-const authConfig = JSON.parse(JSON.stringify(config.get('authCallback')));
-const authenticator = require('drachtio-http-authenticator')(authConfig, logger);
+const lookupRegHook = require('./lib/db/lookup-reg-hook')(logger);
+const authenticator = require('drachtio-http-authenticator')(lookupRegHook, logger);
 
 srf.locals.registrar = new Registrar(logger, {
   host: `${config.get('redis.host')}`,

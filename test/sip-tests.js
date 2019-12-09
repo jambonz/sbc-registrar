@@ -25,11 +25,16 @@ test('register tests', (t) => {
 
   connect(srf)
     .then(() => {
+      sippRegObj.data_file = 'bad_realm.csv';
+      return sippUac('uac-register-unknown-realm.xml', sippRegObj);
+    })
+    .then(() => {
+      t.pass('received immediate 403 Forbidden when using invalid realm');
       sippRegObj.data_file = 'bad_password.csv';
       return sippUac('uac-register-auth-failure-expect-403.xml', sippRegObj);
     })
     .then(() => {
-      t.pass('received 403 Forbidden when using invalid credentials');
+      t.pass('received 403 Forbidden after challenge when using invalid credentials');
       sippRegObj.data_file = 'good_user.csv';
       return sippUac('uac-register-auth-success.xml', sippRegObj);
     })

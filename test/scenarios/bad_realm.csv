@@ -1,0 +1,3 @@
+SEQUENTIAL
+# user, domain, authentication
+john;fail.com;[authentication username=john password=1234]
