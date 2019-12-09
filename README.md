@@ -52,28 +52,43 @@ Note that in a fully-scaled out environment with multiple SBCs there will be one
   }
 ```
 
-## http Callback
+## http callback
 Authenticating users is the responsibility of the client by exposing an http callback.  A POST request will be sent to the configured callback (i.e. the value in the `accounts.registration_hook` column in the associated sip realm value in the REGISTER request).  The body of the POST will be a json payload including the following information:
 ```
-    {
-      "method": "REGISTER",
-      "username": "daveh",
-      "realm": "drachtio.org",
-      "nonce": "2q4gct3g3ghbfj34h3",
-      "uri": "sip:dhorton@drachtio.org",
-      "response": "djaduys9g9d",
-      "expires": 3600
-    }
+{
+	"method": "REGISTER",
+	"expires": 3600,
+	"scheme": "digest",
+	"username": "john",
+	"realm": "jambonz.org",
+	"nonce": "157590482938000",
+	"uri": "sip:172.37.0.10:5060",
+	"response": "be641cf7951ff23ab04c57907d59f37d",
+	"qop": "auth",
+	"nc": "00000001",
+	"cnonce": "6b8b4567",
+	"algorithm": "MD5"
+}
 ```
-It is the responsibility of the customer-side logic to retrieve the associated password for the given username and authenticate the request by calculating a response token (per the algorithm described in [RFC 2617](https://tools.ietf.org/html/rfc2617#section-3.2.2)) and comparing it to that provided in the request.  
+It is the responsibility of the customer-side logic to retrieve the associated password for the given username and to then authenticate the request by calculating a response hash value (per the algorithm described in [RFC 2617](https://tools.ietf.org/html/rfc2617#section-3.2.2)) and comparing it to the response property in the http body.
 
-If the request is successfully authenticated, the callback should return a 200 OK response with a JSON body including:
+For example code showing how to calculate the response hash given the above inputs, [see here](https://github.com/jambonz/customer-auth-server/blob/master/lib/utils.js).
+
+For a simple, full-fledged example server doing the same, [see here](https://github.com/jambonz/customer-auth-server).
+
+The customer server SHOULD return a 200 OK response to the http request in all cases with a json body indicating whether the request was successfully authenticated.
+
+The body MUST include a `status` field with a value of either `ok` or `fail`, indicating whether the request was authenticated or not.
 ```
 {"status": "ok"}
 ```
-This will signal the application to accept the registration request, respond accordingly to the client, and update the redis database with the active registration.
 
-In the case of failure, the customer-side application *should* return a 'msg' property indicating the reason, e.g.
+Additionally, in the case of failure, the body MAY include a `msg` field with a human-readable description of why the authentication failed.
 ```
 {"status": "fail", "msg": "invalid username"}
+```
+
+Finally, in the case of success, the body MAY include an `expires` value which specifies the duration of time, in seconds, to grant for this registration.  If not provided, the expires value in the REGISTER request is used; if provided, however, the value provided must be less than or equal to the duration requested.
+```
+{"status": "ok", "expires": 300}
 ```
