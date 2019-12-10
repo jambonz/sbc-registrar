@@ -23,7 +23,7 @@
     "drachtio-http-authenticator": "^0.1.2",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.14",
-    "jambonz-mw-registrar": "0.0.3",
+    "jambonz-mw-registrar": "^0.1.0",
     "mysql": "^2.17.1",
     "nonce": "^1.0.4",
     "pino": "^5.13.2",
