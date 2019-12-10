@@ -7,13 +7,6 @@
     "port": 6379,
     "host": "127.0.0.1"
   },
-  "authCallback": {
-    "uri": "http://example.com/auth",
-    "auth": {
-      "username": "foo",
-      "password": "bar"
-    }
-  },
   "logging": {
     "level": "info"
   },
