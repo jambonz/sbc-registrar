@@ -5,7 +5,8 @@ const logger = require('pino')(config.get('logging'));
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
 const lookupRegHook = require('./lib/db/lookup-reg-hook')(logger);
-const rejectIpv4 = require('./lib/reject-ipv4-realm')(logger);
+//const rejectIpv4 = require('./lib/reject-ipv4-realm')(logger);
+const {rejectIpv4, checkCache} = require('./lib/middleware');
 const authenticator = require('drachtio-http-authenticator')(lookupRegHook, logger);
 
 srf.locals.registrar = new Registrar(logger, {
@@ -31,7 +32,7 @@ if (config.has('drachtio.host')) {
 }
 
 // middleware
-srf.use('register', [rejectIpv4, regParser, authenticator]);
+srf.use('register', [rejectIpv4(logger), regParser, checkCache(logger), authenticator]);
 
 srf.register(require('./lib/register')({logger}));
 
