@@ -1,13 +1,21 @@
+const assert = require('assert');
 const Srf = require('drachtio-srf');
 const srf = new Srf();
 const config = require('config');
 const logger = require('pino')(config.get('logging'));
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
-const lookupRegHook = require('./lib/db/lookup-reg-hook')(logger);
-//const rejectIpv4 = require('./lib/reject-ipv4-realm')(logger);
 const {rejectIpv4, checkCache} = require('./lib/middleware');
-const authenticator = require('drachtio-http-authenticator')(lookupRegHook, logger);
+let authenticator;
+if (config.has('authCallback')) {
+  const authCallback = config.get('authCallback');
+  authenticator = require('drachtio-http-authenticator')(authCallback, logger);
+}
+else {
+  assert.ok(config.has('mysql'), 'sbc-registrar config missing mysql connection properties');
+  const {lookupAuthHook} = require('jambonz-db-helpers')(config.get('mysql'), logger);
+  authenticator = require('drachtio-http-authenticator')(lookupAuthHook, logger);
+}
 
 srf.locals.registrar = new Registrar(logger, {
   host: `${config.get('redis.host')}`,

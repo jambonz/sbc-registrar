@@ -30,11 +30,6 @@ test('register tests', (t) => {
     })
     .then(() => {
       t.pass('received immediate 403 Forbidden when using ipv4 dot decimal for sip realm');
-      sippRegObj.data_file = 'bad_realm.csv';
-      return sippUac('uac-register-unknown-realm.xml', sippRegObj);
-    })
-    .then(() => {
-      t.pass('received immediate 403 Forbidden when using invalid realm');
       sippRegObj.data_file = 'bad_password.csv';
       return sippUac('uac-register-auth-failure-expect-403.xml', sippRegObj);
     })
