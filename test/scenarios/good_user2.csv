@@ -1,0 +1,3 @@
+SEQUENTIAL
+# user, domain, authentication
+todd;sip.example.com;[authentication username=todd password=1234]

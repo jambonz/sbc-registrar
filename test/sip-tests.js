@@ -39,7 +39,12 @@ test('register tests', (t) => {
       return sippUac('uac-register-auth-success.xml', sippRegObj);
     })
     .then(() => {
-      t.pass('successfully registered when using valid credentials');
+      t.pass('successfully registered when using valid credentials (service provider level auth hook)');
+      sippRegObj.data_file = 'good_user2.csv';
+      return sippUac('uac-register-auth-success.xml', sippRegObj);
+    })
+    .then(() => {
+      t.pass('successfully registered when using valid credentials (account level auth hook)');
       sippRegObj.data_file = 'good_user.csv';
       return sippUac('uac-unregister-auth-success.xml', sippRegObj);
     })

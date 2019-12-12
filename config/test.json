@@ -8,12 +8,11 @@
     "port": 16379,
     "host": "127.0.0.1"
   },
-  "authCallback": {
-    "uri": "http://127.0.0.1:4000/auth",
-    "auth": {
-      "username": "foo",
-      "password": "bar"
-    }
+  "mysql": {
+    "host": "localhost",
+    "user": "jambones_test",
+    "password": "jambones_test",
+    "database": "jambones_test"
   },
   "logging": {
     "level": "info"
