@@ -11,12 +11,14 @@ A redis database is used to hold active registrations. When a register request a
 - the transport protocol that should be used to contact the user (e.g. udp, tcp, wss etc)
 - the sip address of the drachtio server that received the REGISTER request, and
 - the expiration of the registration, in seconds.
+- the application callback that should be invoked when a call is placed from this registered device
+- the application status callback that should invoked for call events on calls placed from this registered device
 
-A hash value is created from these values and stored with an expiry value equal to the number of seconds granted to the registration (note that when a sip client is detected as being behind a firewall, the application will reduce the granted expires value to 30 seconds or so, in order to force the client to re-register frequently).
+A hash value is created from these values and stored with an expiry value equal to the number of seconds granted to the registration (note that when a sip client is detected as being behind a firewall, the application will reduce the granted expires value to 30 seconds, in order to force the client to re-register frequently, however the expiry in redis is set to the longer, originally requested expires value).
 
 The hash value is inserted with a key being the aor:
 ```
-aor => {contact, source, protocol, sbcAddress}, expiry = registration expires value
+aor => {contact, source, protocol, sbcAddress, call_hook, call_status_hook}, expiry = registration expires value
 ```
 
 ## configuration
@@ -88,7 +90,9 @@ Additionally, in the case of failure, the body MAY include a `msg` field with a 
 {"status": "fail", "msg": "invalid username"}
 ```
 
-Finally, in the case of success, the body MAY include an `expires` value which specifies the duration of time, in seconds, to grant for this registration.  If not provided, the expires value in the REGISTER request is used; if provided, however, the value provided must be less than or equal to the duration requested.
+In the case of success, the body MAY include an `expires` value which specifies the duration of time, in seconds, to grant for this registration.  If not provided, the expires value in the REGISTER request is used; if provided, however, the value provided must be less than or equal to the duration requested.
 ```
 {"status": "ok", "expires": 300}
 ```
+
+Additionally in the case of success, the body SHOULD include `call_hook` and `call_status_hook` properties that reference the application URLs to use when calls are placed from this device.  If these values are not provided, outbound calling from the device will not be allowed.

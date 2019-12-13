@@ -1,6 +1,6 @@
 {
   "name": "sbc-registrar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "app.js",
   "engines": {
     "node": ">= 8.10.0"
@@ -20,7 +20,8 @@
   "dependencies": {
     "blue-tape": "^1.0.0",
     "config": "^3.2.4",
-    "drachtio-http-authenticator": "^0.1.5",
+    "debug": "^4.1.1",
+    "drachtio-http-authenticator": "^0.1.6",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.24",
     "jambonz-db-helpers": "^0.1.1",
