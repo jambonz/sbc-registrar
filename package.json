@@ -27,10 +27,10 @@
   "dependencies": {
     "config": "^3.2.4",
     "debug": "^4.1.1",
-    "drachtio-http-authenticator": "^0.1.8",
+    "jambonz-http-authenticator": "^0.0.5",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.26",
-    "jambonz-db-helpers": "^0.1.5",
+    "jambonz-db-helpers": "^0.2.0",
     "jambonz-mw-registrar": "^0.1.0",
     "nonce": "^1.0.4",
     "pino": "^5.14.0"

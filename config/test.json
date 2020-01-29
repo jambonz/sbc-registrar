@@ -15,6 +15,6 @@
     "database": "jambones_test"
   },
   "logging": {
-    "level": "info"
+    "level": "debug"
   }
 }

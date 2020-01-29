@@ -9,12 +9,12 @@ const {rejectIpv4, checkCache} = require('./lib/middleware');
 let authenticator;
 if (config.has('authCallback')) {
   const authCallback = config.get('authCallback');
-  authenticator = require('drachtio-http-authenticator')(authCallback, logger);
+  authenticator = require('jambonz-http-authenticator')(authCallback, logger);
 }
 else {
   assert.ok(config.has('mysql'), 'sbc-registrar config missing mysql connection properties');
   const {lookupAuthHook} = require('jambonz-db-helpers')(config.get('mysql'), logger);
-  authenticator = require('drachtio-http-authenticator')(lookupAuthHook, logger);
+  authenticator = require('jambonz-http-authenticator')(lookupAuthHook, logger);
 }
 
 srf.locals.registrar = new Registrar(logger, {
