@@ -1,42 +1,49 @@
 const assert = require('assert');
+assert.ok(process.env.JAMBONES_MYSQL_HOST &&
+  process.env.JAMBONES_MYSQL_USER &&
+  process.env.JAMBONES_MYSQL_PASSWORD &&
+  process.env.JAMBONES_MYSQL_DATABASE, 'missing JAMBONES_MYSQL_XXX env vars');
+assert.ok(process.env.JAMBONES_REDIS_HOST, 'missing JAMBONES_REDIS_HOST env var');
+assert.ok(process.env.DRACHTIO_PORT || process.env.DRACHTIO_HOST, 'missing DRACHTIO_PORT env var');
+assert.ok(process.env.DRACHTIO_SECRET, 'missing DRACHTIO_SECRET env var');
+
 const Srf = require('drachtio-srf');
 const srf = new Srf();
-const config = require('config');
-const logger = require('pino')(config.get('logging'));
+const opts = Object.assign({
+  timestamp: () => {return `, "time": "${new Date().toISOString()}"`;}
+}, {level: process.env.JAMBONES_LOGLEVEL || 'info'});
+const logger = require('pino')(opts);
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
 const {rejectIpv4, checkCache} = require('./lib/middleware');
-let authenticator;
-if (config.has('authCallback')) {
-  const authCallback = config.get('authCallback');
-  authenticator = require('jambonz-http-authenticator')(authCallback, logger);
-}
-else {
-  assert.ok(config.has('mysql'), 'sbc-registrar config missing mysql connection properties');
-  const {lookupAuthHook} = require('jambonz-db-helpers')(config.get('mysql'), logger);
-  authenticator = require('jambonz-http-authenticator')(lookupAuthHook, logger);
-}
 
+
+const {lookupAuthHook} = require('jambonz-db-helpers')({
+  host: process.env.JAMBONES_MYSQL_HOST,
+  user: process.env.JAMBONES_MYSQL_USER,
+  password: process.env.JAMBONES_MYSQL_PASSWORD,
+  database: process.env.JAMBONES_MYSQL_DATABASE,
+  connectionLimit: process.env.JAMBONES_MYSQL_CONNECTION_LIMIT || 10
+}, logger);
+const authenticator = require('jambonz-http-authenticator')(lookupAuthHook, logger);
 srf.locals.registrar = new Registrar(logger, {
-  host: `${config.get('redis.host')}`,
-  port: `${config.get('redis.port')}`
+  host: process.env.JAMBONES_REDIS_HOST,
+  port: process.env.JAMBONES_REDIS_PORT || 6379
 });
 
-// disable logging in test mode
-if (process.env.NODE_ENV === 'test') {
-  const noop = () => {};
-  logger.info = logger.debug = noop;
-  logger.child = () => {return {info: noop, error: noop, debug: noop};};
-}
-
-if (config.has('drachtio.host')) {
-  srf.connect(config.get('drachtio'));
+if (process.env.DRACHTIO_HOST) {
+  srf.connect({host: process.env.DRACHTIO_HOST, port: process.env.DRACHTIO_PORT, secret: process.env.DRACHTIO_SECRET });
   srf.on('connect', (err, hp) => {
-    if (err) throw err;
     logger.info(`connected to drachtio listening on ${hp}`);
   });
-} else {
-  srf.listen(config.get('drachtio'));
+}
+else {
+  srf.listen({host: process.env.DRACHTIO_PORT, secret: process.env.DRACHTIO_SECRET});
+}
+if (process.env.NODE_ENV === 'test') {
+  srf.on('error', (err) => {
+    logger.info(err, 'Error connecting to drachtio');
+  });
 }
 
 // middleware
