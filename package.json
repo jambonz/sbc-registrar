@@ -25,7 +25,6 @@
     "jslint": "eslint app.js lib"
   },
   "dependencies": {
-    "config": "^3.2.4",
     "debug": "^4.1.1",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-srf": "^4.4.28",
