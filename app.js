@@ -13,6 +13,8 @@ const opts = Object.assign({
   timestamp: () => {return `, "time": "${new Date().toISOString()}"`;}
 }, {level: process.env.JAMBONES_LOGLEVEL || 'info'});
 const logger = require('pino')(opts);
+const StatsCollector = require('jambonz-stats-collector');
+const stats = new StatsCollector(logger);
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
 const {rejectIpv4, checkCache} = require('./lib/middleware');
@@ -51,4 +53,11 @@ srf.use('register', [rejectIpv4(logger), regParser, checkCache(logger), authenti
 
 srf.register(require('./lib/register')({logger}));
 
-module.exports = {srf};
+setInterval(async() => {
+  const count = await srf.locals.registrar.getCountOfUsers();
+  logger.debug(`count of registered users: ${count}`);
+  stats.gauge('sbc.users.count', parseInt(count));
+}, 30000);
+
+
+module.exports = {srf, logger};
