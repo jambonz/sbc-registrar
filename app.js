@@ -18,6 +18,7 @@ const stats = new StatsCollector(logger);
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
 const {rejectIpv4, checkCache} = require('./lib/middleware');
+const debug = require('debug')('jambonz:sbc-registrar');
 
 
 const {lookupAuthHook} = require('jambonz-db-helpers')({
@@ -55,7 +56,7 @@ srf.register(require('./lib/register')({logger}));
 
 setInterval(async() => {
   const count = await srf.locals.registrar.getCountOfUsers();
-  logger.debug(`count of registered users: ${count}`);
+  debug(`count of registered users: ${count}`);
   stats.gauge('sbc.users.count', parseInt(count));
 }, 30000);
 
