@@ -37,7 +37,7 @@ class RegOutcomeReporter extends Emitter {
   constructor() {
     super();
     this.on('regHookOutcome', ({rtt, status}) => {
-      stats.histogram('sbc.registration.auth_hook.response_time', rtt, [`status:${status}`]);
+      stats.histogram('app.hook.response_time', rtt, ['hook_type:auth', `status:${status}`]);
     });
   }
 }
