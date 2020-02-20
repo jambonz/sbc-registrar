@@ -27,7 +27,8 @@
   "dependencies": {
     "debug": "^4.1.1",
     "drachtio-mw-registration-parser": "^0.1.0",
-    "drachtio-srf": "^4.4.28",
+    "drachtio-mw-response-time": "^1.0.2",
+    "drachtio-srf": "^4.4.29",
     "jambonz-db-helpers": "^0.3.3",
     "jambonz-http-authenticator": "^0.1.2",
     "jambonz-mw-registrar": "^0.1.3",

@@ -18,6 +18,7 @@ const stats = new StatsCollector(logger);
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
 const {rejectIpv4, checkCache} = require('./lib/middleware');
+const responseTime = require('drachtio-mw-response-time');
 const debug = require('debug')('jambonz:sbc-registrar');
 
 
@@ -49,8 +50,11 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
+const rttMetric = (req, res, time) => 
+  stats.histogram('sbc.registration.response_time', time.toFixed(0), [`status:${res.statusCode}`]);
+
 // middleware
-srf.use('register', [rejectIpv4(logger), regParser, checkCache(logger), authenticator]);
+srf.use('register', [responseTime(rttMetric), rejectIpv4(logger), regParser, checkCache(logger), authenticator]);
 
 srf.register(require('./lib/register')({logger}));
 
