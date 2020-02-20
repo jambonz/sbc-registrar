@@ -38,6 +38,7 @@ class RegOutcomeReporter extends Emitter {
     super();
     this.on('regHookOutcome', ({rtt, status}) => {
       stats.histogram('app.hook.response_time', rtt, ['hook_type:auth', `status:${status}`]);
+      if (![200, 403].includes(status)) stats.increment('app.hook.error.count', ['hook_type:auth', `status:${status}`]);
     });
   }
 }
