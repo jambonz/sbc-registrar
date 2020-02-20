@@ -60,8 +60,14 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
-const rttMetric = (req, res, time) =>
-  stats.histogram('sbc.registration.total.response_time', time.toFixed(0), [`status:${res.statusCode}`]);
+const rttMetric = (req, res, time) => {
+  if (res.cached) {
+    stats.histogram('sbc.registration.cached.response_time', time.toFixed(0), [`status:${res.statusCode}`]);
+  }
+  else {
+    stats.histogram('sbc.registration.total.response_time', time.toFixed(0), [`status:${res.statusCode}`]);
+  }
+};
 
 // middleware
 srf.use('register', [responseTime(rttMetric), rejectIpv4(logger), regParser, checkCache(logger), authenticator]);
