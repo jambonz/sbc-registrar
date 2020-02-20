@@ -7,6 +7,7 @@ assert.ok(process.env.JAMBONES_REDIS_HOST, 'missing JAMBONES_REDIS_HOST env var'
 assert.ok(process.env.DRACHTIO_PORT || process.env.DRACHTIO_HOST, 'missing DRACHTIO_PORT env var');
 assert.ok(process.env.DRACHTIO_SECRET, 'missing DRACHTIO_SECRET env var');
 
+const Emitter = require('events');
 const Srf = require('drachtio-srf');
 const srf = new Srf();
 const opts = Object.assign({
@@ -20,8 +21,6 @@ const Registrar = require('jambonz-mw-registrar');
 const {rejectIpv4, checkCache} = require('./lib/middleware');
 const responseTime = require('drachtio-mw-response-time');
 const debug = require('debug')('jambonz:sbc-registrar');
-
-
 const {lookupAuthHook} = require('jambonz-db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
   user: process.env.JAMBONES_MYSQL_USER,
@@ -29,10 +28,21 @@ const {lookupAuthHook} = require('jambonz-db-helpers')({
   database: process.env.JAMBONES_MYSQL_DATABASE,
   connectionLimit: process.env.JAMBONES_MYSQL_CONNECTION_LIMIT || 10
 }, logger);
-const authenticator = require('jambonz-http-authenticator')(lookupAuthHook, logger);
 srf.locals.registrar = new Registrar(logger, {
   host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
+});
+
+class RegOutcomeReporter extends Emitter {
+  constructor() {
+    super();
+    this.on('regHookOutcome', ({rtt, status}) => {
+      stats.histogram('sbc.registration.auth_hook.response_time', rtt, [`status:${status}`]);
+    });
+  }
+}
+const authenticator = require('jambonz-http-authenticator')(lookupAuthHook, logger, {
+  emitter: new RegOutcomeReporter()
 });
 
 if (process.env.DRACHTIO_HOST) {
@@ -50,8 +60,8 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
-const rttMetric = (req, res, time) => 
-  stats.histogram('sbc.registration.response_time', time.toFixed(0), [`status:${res.statusCode}`]);
+const rttMetric = (req, res, time) =>
+  stats.histogram('sbc.registration.total.response_time', time.toFixed(0), [`status:${res.statusCode}`]);
 
 // middleware
 srf.use('register', [responseTime(rttMetric), rejectIpv4(logger), regParser, checkCache(logger), authenticator]);
