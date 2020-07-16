@@ -14,14 +14,14 @@ const opts = Object.assign({
   timestamp: () => {return `, "time": "${new Date().toISOString()}"`;}
 }, {level: process.env.JAMBONES_LOGLEVEL || 'info'});
 const logger = require('pino')(opts);
-const StatsCollector = require('jambonz-stats-collector');
+const StatsCollector = require('@jambonz/stats-collector');
 const stats = new StatsCollector(logger);
 const regParser = require('drachtio-mw-registration-parser');
 const Registrar = require('jambonz-mw-registrar');
 const {rejectIpv4, checkCache} = require('./lib/middleware');
 const responseTime = require('drachtio-mw-response-time');
 const debug = require('debug')('jambonz:sbc-registrar');
-const {lookupAuthHook} = require('jambonz-db-helpers')({
+const {lookupAuthHook} = require('@jambonz/db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
   user: process.env.JAMBONES_MYSQL_USER,
   password: process.env.JAMBONES_MYSQL_PASSWORD,
