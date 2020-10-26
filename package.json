@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@jambonz/db-helpers": "^0.5.1",
-    "@jambonz/stats-collector": "0.1.0",
+    "@jambonz/stats-collector": "0.1.1",
     "debug": "^4.1.1",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-mw-response-time": "^1.0.2",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "blue-tape": "^1.0.0",
     "clear-module": "^4.1.1",
-    "eslint": "^7.7.0",
+    "eslint": "^7.12.0",
     "eslint-plugin-promise": "^4.2.1",
     "nyc": "^15.1.0",
     "tap": "^14.10.8",
