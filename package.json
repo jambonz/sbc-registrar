@@ -25,7 +25,7 @@
     "jslint": "eslint app.js lib"
   },
   "dependencies": {
-    "@jambonz/db-helpers": "^0.4.2",
+    "@jambonz/db-helpers": "^0.5.1",
     "@jambonz/stats-collector": "0.1.0",
     "debug": "^4.1.1",
     "drachtio-mw-registration-parser": "^0.1.0",
