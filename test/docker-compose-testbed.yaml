@@ -35,3 +35,26 @@ services:
       sbc-registrar:
         ipv4_address: 172.37.0.13
 
+  sipp-uas-auth-register:
+    image: drachtio/sipp:latest
+    command: sipp -sf /tmp/uas-auth-register.xml
+    container_name: sipp-uas-auth-register
+    volumes:
+      - ./scenarios:/tmp
+    tty: true
+    networks:
+      sbc-registrar:
+        ipv4_address: 172.37.0.14
+
+  sipp-uas-auth-register-fail:
+    image: drachtio/sipp:latest
+    command: sipp -sf /tmp/uas-auth-register2.xml
+    container_name: sipp-uas-auth-register2
+    volumes:
+      - ./scenarios:/tmp
+    tty: true
+    networks:
+      sbc-registrar:
+        ipv4_address: 172.37.0.15
+
+

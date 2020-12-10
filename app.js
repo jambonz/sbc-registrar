@@ -21,7 +21,7 @@ const Registrar = require('jambonz-mw-registrar');
 const {rejectIpv4, checkCache} = require('./lib/middleware');
 const responseTime = require('drachtio-mw-response-time');
 const debug = require('debug')('jambonz:sbc-registrar');
-const {lookupAuthHook} = require('@jambonz/db-helpers')({
+const {lookupAuthHook, lookupAllVoipCarriers, lookupSipGatewaysByCarrier} = require('@jambonz/db-helpers')({
   host: process.env.JAMBONES_MYSQL_HOST,
   user: process.env.JAMBONES_MYSQL_USER,
   password: process.env.JAMBONES_MYSQL_PASSWORD,
@@ -32,6 +32,7 @@ srf.locals.registrar = new Registrar(logger, {
   host: process.env.JAMBONES_REDIS_HOST,
   port: process.env.JAMBONES_REDIS_PORT || 6379
 });
+srf.locals.dbHelpers = {lookupAllVoipCarriers, lookupSipGatewaysByCarrier};
 
 class RegOutcomeReporter extends Emitter {
   constructor() {
@@ -50,6 +51,7 @@ if (process.env.DRACHTIO_HOST) {
   srf.connect({host: process.env.DRACHTIO_HOST, port: process.env.DRACHTIO_PORT, secret: process.env.DRACHTIO_SECRET });
   srf.on('connect', (err, hp) => {
     logger.info(`connected to drachtio listening on ${hp}`);
+    srf.locals.regbotStatus = require('./lib/sip-trunk-register')(logger, srf);
   });
 }
 else {
