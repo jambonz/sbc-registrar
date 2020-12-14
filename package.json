@@ -25,7 +25,7 @@
     "jslint": "eslint app.js lib"
   },
   "dependencies": {
-    "@jambonz/db-helpers": "^0.5.3",
+    "@jambonz/db-helpers": "^0.5.5",
     "@jambonz/stats-collector": "^0.1.4",
     "debug": "^4.3.1",
     "drachtio-mw-registration-parser": "^0.1.0",
@@ -33,7 +33,6 @@
     "drachtio-srf": "^4.4.44",
     "jambonz-http-authenticator": "^0.1.5",
     "jambonz-mw-registrar": "^0.1.3",
-    "nonce": "^1.0.4",
     "pino": "^6.8.0"
   },
   "devDependencies": {
@@ -42,8 +41,6 @@
     "eslint": "^7.15.0",
     "eslint-plugin-promise": "^4.2.1",
     "nyc": "^15.1.0",
-    "tap": "^14.11.0",
-    "tap-dot": "^2.0.0",
     "tap-spec": "^5.0.0"
   }
 }
