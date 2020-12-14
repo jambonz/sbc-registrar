@@ -24,7 +24,7 @@ const wait = (duration) => {
 };
 
 test('populating more test case data', (t) => {
-  exec(`mysql -h localhost -u root ${pwd} -D jambones_test < ${__dirname}/db/populate-test-data2.sql`, (err, stdout, stderr) => {
+  exec(`mysql -h 127.0.0.1 -u root --protocol=tcp -D jambones_test < ${__dirname}/db/populate-test-data2.sql`, (err, stdout, stderr) => {
     if (err) return t.end(err);
     t.pass('test data set created');
     t.end();
@@ -44,7 +44,7 @@ test('trunk register tests', (t) => {
     })
     .then(() => {
       return new Promise((resolve, reject) => {
-        exec(`mysql -h localhost -u root ${pwd} -D jambones_test < ${__dirname}/db/populate-test-data3.sql`, (err, stdout, stderr) => {
+        exec(`mysql -h 127.0.0.1 -u root --protocol=tcp   -D jambones_test < ${__dirname}/db/populate-test-data3.sql`, (err, stdout, stderr) => {
           if (err) return reject(err);
           t.pass('added new gateway');
           resolve();

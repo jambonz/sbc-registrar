@@ -1,5 +1,5 @@
 const { spawn } = require('child_process');
-const debug = require('debug')('test:sipp');
+const debug = require('debug')('jambonz:ci');
 let network;
 const obj = {};
 let output = '';
@@ -27,7 +27,7 @@ obj.output = () => {
 obj.sippUac = (file, regObj) => {
   const cmd = 'docker';
   let args = [
-    'run', '-ti', '--rm', '--net', `${network}`,
+    'run', '--rm', '--net', `${network}`,
     '-v', `${__dirname}/scenarios:/tmp/scenarios`,
     'drachtio/sipp', 'sipp', `${regObj.remote_host}`, // remote host is require on auth
     '-inf', `/tmp/scenarios/${regObj.data_file}`,
@@ -59,8 +59,8 @@ obj.sippUac = (file, regObj) => {
       debug(`stdout: ${data}`);
       addOutput(data.toString());
     });
-    child_process.stdout.on('data', (data) => {
-      debug(`stdout: ${data}`);
+    child_process.stderr.on('data', (data) => {
+      debug(`stderr: ${data}`);
       addOutput(data.toString());
     });
   });
