@@ -8,6 +8,19 @@ networks:
         - subnet: 172.37.0.0/16
 
 services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--protocol", "tcp"]
+      timeout: 5s
+      retries: 10    
+    networks:
+      sbc-registrar:
+        ipv4_address: 172.37.0.2
   sbc:
     image: drachtio/drachtio-server:latest
     command: drachtio --contact "sip:*;transport=udp" --loglevel debug --sofia-loglevel 9
@@ -16,6 +29,9 @@ services:
     networks:
       sbc-registrar:
         ipv4_address: 172.37.0.10
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   auth-server:
     image: jambonz/customer-auth-server:latest
