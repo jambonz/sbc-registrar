@@ -27,11 +27,11 @@
   "dependencies": {
     "@jambonz/db-helpers": "^0.5.5",
     "@jambonz/stats-collector": "^0.1.4",
+    "@jambonz/http-authenticator": "^0.1.6",
     "debug": "^4.3.1",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-mw-response-time": "^1.0.2",
     "drachtio-srf": "^4.4.44",
-    "jambonz-http-authenticator": "^0.1.5",
     "jambonz-mw-registrar": "^0.1.3",
     "pino": "^6.8.0"
   },

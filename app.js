@@ -43,7 +43,7 @@ class RegOutcomeReporter extends Emitter {
     });
   }
 }
-const authenticator = require('jambonz-http-authenticator')(lookupAuthHook, logger, {
+const authenticator = require('@jambonz/http-authenticator')(lookupAuthHook, logger, {
   emitter: new RegOutcomeReporter()
 });
 
