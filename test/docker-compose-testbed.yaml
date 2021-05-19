@@ -73,4 +73,11 @@ services:
       sbc-registrar:
         ipv4_address: 172.37.0.15
 
-
+  influxdb:
+    image: influxdb:1.8-alpine
+    ports:
+      - "8086:8086"
+    networks:
+      sbc-registrar:
+        ipv4_address: 172.37.0.90
+      

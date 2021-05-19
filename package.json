@@ -1,6 +1,6 @@
 {
   "name": "sbc-registrar",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "app.js",
   "engines": {
     "node": ">= 10.16.0"
@@ -20,28 +20,26 @@
   },
   "scripts": {
     "start": "node app",
-    "test": "NODE_ENV=test JAMBONES_MYSQL_HOST=localhost JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_REDIS_PORT=16379 JAMBONES_LOGLEVEL=error DRACHTIO_SECRET=cymru DRACHTIO_HOST=127.0.0.1 DRACHTIO_PORT=9022 node test/ | ./node_modules/.bin/tap-spec",
+    "test": "NODE_ENV=test JAMBONES_TIME_SERIES_HOST=127.0.0.1 JAMBONES_MYSQL_HOST=localhost JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_REDIS_PORT=16379 JAMBONES_LOGLEVEL=error DRACHTIO_SECRET=cymru DRACHTIO_HOST=127.0.0.1 DRACHTIO_PORT=9022 node test/ ",
     "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
     "jslint": "eslint app.js lib"
   },
   "dependencies": {
-    "@jambonz/db-helpers": "^0.5.5",
-    "@jambonz/stats-collector": "^0.1.4",
-    "@jambonz/http-authenticator": "^0.1.6",
+    "@jambonz/db-helpers": "^0.5.20",
+    "@jambonz/http-authenticator": "^0.2.0",
+    "@jambonz/mw-registrar": "^0.2.0",
+    "@jambonz/stats-collector": "^0.1.5",
+    "@jambonz/time-series": "^0.1.5",
     "debug": "^4.3.1",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-mw-response-time": "^1.0.2",
-    "drachtio-srf": "^4.4.44",
-    "jambonz-mw-registrar": "^0.1.3",
-    "pino": "^6.8.0"
+    "drachtio-srf": "^4.4.49",
+    "pino": "^6.11.0"
   },
   "devDependencies": {
-    "blue-tape": "^1.0.0",
     "clear-module": "^4.1.1",
-    "eslint": "^7.15.0",
+    "eslint": "^7.18.0",
     "eslint-plugin-promise": "^4.2.1",
-    "nyc": "^15.1.0",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.1.1"
+    "tape": "^4.13.3"
   }
 }
