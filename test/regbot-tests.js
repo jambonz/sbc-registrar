@@ -33,7 +33,7 @@ test('populating more test case data', (t) => {
 
 test('trunk register tests', (t) => {
   clearModule('../app');
-  const {srf} = require('../app');
+  const {srf, registrar} = require('../app');
   t.timeoutAfter(60000);
 
   connect(srf)

@@ -80,4 +80,3 @@ services:
     networks:
       sbc-registrar:
         ipv4_address: 172.37.0.90
-      
