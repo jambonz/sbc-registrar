@@ -1,9 +1,9 @@
 {
   "name": "sbc-registrar",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "main": "app.js",
   "engines": {
-    "node": ">= 10.16.0"
+    "node": ">= 14.0.0"
   },
   "keywords": [
     "sip",
@@ -20,14 +20,14 @@
   },
   "scripts": {
     "start": "node app",
-    "test": "NODE_ENV=test JAMBONES_TIME_SERIES_HOST=127.0.0.1 JAMBONES_MYSQL_HOST=localhost JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_REDIS_PORT=16379 JAMBONES_LOGLEVEL=error DRACHTIO_SECRET=cymru DRACHTIO_HOST=127.0.0.1 DRACHTIO_PORT=9022 node test/ ",
+    "test": "NODE_ENV=test JAMBONES_HOSTING=1 JAMBONES_TIME_SERIES_HOST=127.0.0.1 JAMBONES_MYSQL_HOST=localhost JAMBONES_MYSQL_USER=jambones_test JAMBONES_MYSQL_PASSWORD=jambones_test JAMBONES_MYSQL_DATABASE=jambones_test JAMBONES_REDIS_HOST=localhost JAMBONES_REDIS_PORT=16379 JAMBONES_LOGLEVEL=error DRACHTIO_SECRET=cymru DRACHTIO_HOST=127.0.0.1 DRACHTIO_PORT=9022 node test/ ",
     "coverage": "./node_modules/.bin/nyc --reporter html --report-dir ./coverage npm run test",
     "jslint": "eslint app.js lib"
   },
   "dependencies": {
-    "@jambonz/db-helpers": "^0.5.20",
+    "@jambonz/db-helpers": "^0.6.12",
     "@jambonz/http-authenticator": "^0.2.0",
-    "@jambonz/mw-registrar": "^0.2.0",
+    "@jambonz/mw-registrar": "^0.2.1",
     "@jambonz/stats-collector": "^0.1.5",
     "@jambonz/time-series": "^0.1.5",
     "debug": "^4.3.1",

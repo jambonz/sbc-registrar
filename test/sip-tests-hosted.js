@@ -15,9 +15,9 @@ function connect(connectable) {
   });
 }
 
-test('register tests', (t) => {
+test('register tests - hosted platform', (t) => {
   clearModule('../app');
-  const {srf} = require('../app');
+  const {srf, registrar} = require('../app');
 
   const sippRegObj = {
     remote_host: '172.38.0.10:5060'
@@ -25,21 +25,21 @@ test('register tests', (t) => {
 
   connect(srf)
     .then(() => {
-      sippRegObj.data_file = 'bad_realm.csv';
-      return sippUac('uac-reject-ipv4-realm.xml', sippRegObj);
+      sippRegObj.data_file = 'good_user2.csv';
+      return sippUac('uac-register-auth-failure-expect-503.xml', sippRegObj);
     })
     .then(() => {
-      t.pass('received immediate 403 Forbidden when using ipv4 dot decimal for sip realm');
-      sippRegObj.data_file = 'bad_password.csv';
-      return sippUac('uac-register-auth-failure-expect-403.xml', sippRegObj);
-    })
-    .then(() => {
-      t.pass('received 403 Forbidden after challenge when using invalid credentials');
+      t.pass('registration denied if max devices already registered');
       sippRegObj.data_file = 'good_user.csv';
-      return sippUac('uac-register-auth-success.xml', sippRegObj);
+      return sippUac('uac-unregister-auth-success.xml', sippRegObj);
     })
     .then(() => {
-      t.pass('successfully registered when using valid credentials (service provider level auth hook)');
+      t.pass('successfully unregistered first user');
+      sippRegObj.data_file = 'good_user2.csv';
+      return sippUac('uac-register-auth-success2.xml', sippRegObj);
+    })
+    .then(() => {
+      t.pass('second user can now successfully register');
       if (srf.locals.lb) srf.locals.lb.disconnect();
       srf.disconnect();
       t.end();
