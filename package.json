@@ -34,7 +34,7 @@
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-mw-response-time": "^1.0.2",
     "drachtio-srf": "^4.4.55",
-    "pino": "^6.11.0"
+    "pino": "^6.13.3"
   },
   "devDependencies": {
     "clear-module": "^4.1.1",
