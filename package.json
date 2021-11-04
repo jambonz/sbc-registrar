@@ -28,7 +28,7 @@
     "@jambonz/db-helpers": "^0.6.12",
     "@jambonz/http-authenticator": "^0.2.0",
     "@jambonz/mw-registrar": "^0.2.1",
-    "@jambonz/stats-collector": "^0.1.5",
+    "@jambonz/stats-collector": "^0.1.6",
     "@jambonz/time-series": "^0.1.5",
     "debug": "^4.3.1",
     "drachtio-mw-registration-parser": "^0.1.0",
