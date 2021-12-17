@@ -98,7 +98,7 @@ const authenticator = require('@jambonz/http-authenticator')(lookupAuthHook, log
   emitter: new RegOutcomeReporter()
 });
 
-if (process.env.DRACHTIO_HOST) {
+if (process.env.DRACHTIO_HOST && !process.env.K8S) {
   srf.connect({host: process.env.DRACHTIO_HOST, port: process.env.DRACHTIO_PORT, secret: process.env.DRACHTIO_SECRET });
   srf.on('connect', (err, hp) => {
     logger.info(`connected to drachtio listening on ${hp}`);
