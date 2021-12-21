@@ -1,6 +1,6 @@
 {
   "name": "sbc-registrar",
-  "version": "v0.7.0",
+  "version": "v0.7.1",
   "main": "app.js",
   "engines": {
     "node": ">= 14.0.0"
