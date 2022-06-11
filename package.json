@@ -25,22 +25,21 @@
     "jslint": "eslint app.js lib"
   },
   "dependencies": {
-    "@jambonz/db-helpers": "^0.6.13",
+    "@jambonz/db-helpers": "^0.6.18",
     "@jambonz/http-authenticator": "^0.2.1",
     "@jambonz/mw-registrar": "^0.2.2",
     "@jambonz/stats-collector": "^0.1.6",
-    "@jambonz/time-series": "^0.1.5",
-    "debug": "^4.3.2",
+    "@jambonz/time-series": "^0.1.9",
+    "debug": "^4.3.4",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-mw-response-time": "^1.0.2",
-    "drachtio-srf": "^4.4.55",
-    "husky": "^7.0.4",
-    "pino": "^6.13.3"
+    "drachtio-srf": "^4.5.0",
+    "pino": "^6.14.0"
   },
   "devDependencies": {
-    "clear-module": "^4.1.1",
-    "eslint": "^7.18.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "tape": "^4.13.3"
+    "clear-module": "^4.1.2",
+    "eslint": "^7.32.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "tape": "^4.15.1"
   }
 }
