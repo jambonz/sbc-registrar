@@ -10,10 +10,7 @@ assert.ok(process.env.DRACHTIO_SECRET, 'missing DRACHTIO_SECRET env var');
 const Emitter = require('events');
 const Srf = require('drachtio-srf');
 const srf = new Srf();
-const opts = Object.assign({
-  timestamp: () => {return `, "time": "${new Date().toISOString()}"`;}
-}, {level: process.env.JAMBONES_LOGLEVEL || 'info'});
-const logger = require('pino')(opts);
+const logger = require('pino')({level: process.env.JAMBONES_LOGLEVEL || 'info'});
 const StatsCollector = require('@jambonz/stats-collector');
 const stats = new StatsCollector(logger);
 const regParser = require('drachtio-mw-registration-parser');
@@ -70,9 +67,9 @@ class RegOutcomeReporter extends Emitter {
       })
       .on('error', async(err, req) => {
         logger.error({err}, 'http webhook failed');
-        const {account_sid} = req.locals;
+        const {account_sid, service_provider_sid} = req.locals;
         if (account_sid) {
-          let opts = {account_sid};
+          let opts = {account_sid, service_provider_sid};
           if (err.code === 'ECONNREFUSED') {
             opts = {...opts, alert_type: AlertType.WEBHOOK_CONNECTION_FAILURE, url: err.hook};
           }
