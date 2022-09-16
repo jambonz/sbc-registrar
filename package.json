@@ -29,7 +29,7 @@
     "@jambonz/http-authenticator": "^0.2.2",
     "@jambonz/mw-registrar": "^0.2.2",
     "@jambonz/stats-collector": "^0.1.6",
-    "@jambonz/time-series": "^0.2.0",
+    "@jambonz/time-series": "^0.2.1",
     "debug": "^4.3.4",
     "drachtio-mw-registration-parser": "^0.1.0",
     "drachtio-mw-response-time": "^1.0.2",
